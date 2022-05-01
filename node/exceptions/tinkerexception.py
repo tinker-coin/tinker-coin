@@ -1,0 +1,3 @@
+
+class TinkerException(Exception):
+    pass

@@ -5,6 +5,9 @@ import logging
 # Setup module paths
 sys.path.append(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
+print("Main")
+print(sys.path)
+
 logger = logging.getLogger(__name__)
 
 
@@ -20,7 +23,9 @@ def start_node(working_dir):
     from module.dependencyinjector import DependencyInjector
     config_file = os.path.join(working_dir, "config.json")
     logger.debug("Config file: %s", config_file)
-    di = DependencyInjector(config_file=config_file)
+    di = DependencyInjector(config_file=config_file,
+                            working_dir=working_dir,
+                            code_root=os.path.dirname(os.path.abspath(__file__)))
     di.app.start()
 
 

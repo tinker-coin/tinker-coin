@@ -3,5 +3,7 @@
 env
 .env
 *.pyc
-
-
+htmlcov
+.coverage
+coverage_html_report
+.pytest_cache

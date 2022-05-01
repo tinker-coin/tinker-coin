@@ -8,4 +8,19 @@ Todo: Add details here
 Todo: Add details here 
 
 ## Running unit-tests
-Todo: Add details here 
+### Running Unit tests only.
+```
+tinker-node> pytest
+```
+### Running Unit tests with coverage.
+```
+tinker-node> coverage run -m pytest
+```
+### See quick coverage report
+```
+tinker-node> coverage report
+```
+### Generate coverage html report
+```
+tinker-node> coverage html
+```

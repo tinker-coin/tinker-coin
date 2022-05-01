@@ -1,6 +1,7 @@
+import abc
 
 
-class IRunnable(object):
+class IRunnable(metaclass=abc.ABCMeta):
 
     def start(self):
         """Starts the runnable object."""

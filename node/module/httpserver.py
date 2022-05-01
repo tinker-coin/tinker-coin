@@ -13,17 +13,12 @@ logger = logging.getLogger(__name__)
 
 class HTTPServer(INetworkedWorker):
 
-    def __init__(self
-                 , http_server_class: Type[BaseServer]
-                 , handler_class: Type[BaseHTTPRequestHandler]
-                 ):
+    def __init__(self, http_server_class: Type[BaseServer], handler_class: Type[BaseHTTPRequestHandler]):
         self.http_server_class = http_server_class
         self.handler_class = handler_class
         self.binding_interface = None
         self.port = None
         self.app = None
-        # self._app = app
-        # self._server = http_server_class((address, port), handler_class)
         self._server = None
         self.running = False
         self._thread = threading.Thread(target=self.run)
@@ -41,16 +36,20 @@ class HTTPServer(INetworkedWorker):
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
             return s.connect_ex((binding_address, port)) == 0
 
-    def run(self):
-        # noinspection HttpUrlsUsage
-        logger.info("Starting HTTP Server: http://%s:%s/.",
+    def address(self) -> str:
+        return "http://{}:{}/".format(
                     self.binding_interface if self.binding_interface != "" else "localhost",
                     self.port)
+
+    def run(self):
+        # noinspection HttpUrlsUsage
+        logger.debug("Starting HTTP Server: %s", self.address())
         self.running = True
         self._server = self.http_server_class((self.binding_interface, self.port), self.handler_class)
+        self._server.app = self.app
         while self.running:
             self._server.handle_request()
-        logger.info("HTTP Server at {} Terminated.", self.port)
+        logger.debug("HTTP Server at {} Terminated.", self.port)
 
     def start(self):
         self._thread.start()
